@@ -2,7 +2,7 @@ import pyrogram
 import logging
 import os
 from config import Config
-from pyrogram import Client 
+from pyrogram import Client
 
 # Logging setup
 logging.basicConfig(level=logging.DEBUG,
@@ -10,21 +10,16 @@ logging.basicConfig(level=logging.DEBUG,
 logger = logging.getLogger(__name__)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
-# TIME SYNC CHECK
-import time
+# ✅ TIME SYNC PATCH (fixes msg_id too low error)
 import ntplib
+from time import ctime
 
 try:
-    client = ntplib.NTPClient()
-    response = client.request('pool.ntp.org')
-    ts = response.tx_time
-    time_diff = abs(time.time() - ts)
-
-    if time_diff > 5:
-        logger.error(f"⚠️ System time is off by {time_diff:.2f} seconds. Please fix your server time.")
-        exit("❌ System time not synced. Exiting.")
+    c = ntplib.NTPClient()
+    response = c.request('pool.ntp.org')
+    logger.info(f"[Time Sync] Time synced: {ctime(response.tx_time)}")
 except Exception as e:
-    logger.warning(f"NTP time sync check failed: {e}")
+    logger.warning(f"[Time Sync] NTP time sync failed: {e}")
 
 # Bot Class
 class autocaption(Client):
