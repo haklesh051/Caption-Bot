@@ -25,11 +25,10 @@ try:
 except Exception as e:
     logger.warning(f"[Time Sync] NTP time sync failed: {e}")
 
-# Bot Class using bot_token
+# Bot Class using bot token only
 class autocaption(Client):
     def __init__(self):
         super().__init__(
-            name="autocaption_bot",
             bot_token=Config.BOT_TOKEN,
             api_id=Config.API_ID,
             api_hash=Config.API_HASH,
