@@ -17,7 +17,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
-# Time sync logging only (doesn't fix time)
+# Time sync logging only (does not update system clock)
 try:
     client = ntplib.NTPClient()
     response = client.request("pool.ntp.org")
@@ -25,11 +25,11 @@ try:
 except Exception as e:
     logger.warning(f"[Time Sync] NTP time sync failed: {e}")
 
-# Pyrogram Bot Class
+# Bot Class using bot_token
 class autocaption(Client):
     def __init__(self):
         super().__init__(
-            session_name="Captioner",
+            name="autocaption_bot",
             bot_token=Config.BOT_TOKEN,
             api_id=Config.API_ID,
             api_hash=Config.API_HASH,
@@ -44,6 +44,6 @@ async def main():
     logger.info("🤖 Bot started successfully. Waiting for events...")
     await app.idle()
 
-# Run bot
+# Start the bot
 if __name__ == "__main__":
     asyncio.run(main())
